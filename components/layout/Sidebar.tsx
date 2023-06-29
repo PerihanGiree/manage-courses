@@ -6,7 +6,6 @@ import Image from "next/image";
 import { navigationTypes } from "@/src/types";
 import { navigationDatas } from "@/src/constans";
 import IconButton from "../ui/IconButton";
-import { useRouter } from "next/router";
 
 const Sidebar = () => {
   const [menu, setMenu] = useState<navigationTypes.NavigationMenuItemType[]>(
