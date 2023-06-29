@@ -1,0 +1,1 @@
+export * as navigationDatas from './datas/navigation-menu';
