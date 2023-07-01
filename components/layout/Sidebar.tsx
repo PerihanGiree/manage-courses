@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "../../public/avatar.png";
 import logout from "../../public/sign-out-alt 1.svg";
 import Image from "next/image";
@@ -14,10 +14,11 @@ const Sidebar = () => {
   );
   const router = useRouter();
   
-  const handleClickNavigateButton = (path: string, title: string) => {
-    router.push(path);
-    setMenu((prev) => prev.map((item) => {
-      if(item.title === title){
+  useEffect(() => {
+    const path = router.pathname;
+
+    const list = navigationDatas.NavigationMenu.map((item) => {
+      if(item.path === path){
         return {
           ...item,
           isActive: true
@@ -27,7 +28,12 @@ const Sidebar = () => {
         ...item,
         isActive: false
       }
-    }))
+    });
+    setMenu(list);
+  },[router]);
+
+  const handleClickNavigateButton = (path: string, title: string) => {
+    router.push(path);
   }
   return (
     <div className="w-[270px] bg-light flex flex-col justify-between items-center">

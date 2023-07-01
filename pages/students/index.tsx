@@ -59,7 +59,7 @@ const TableTitle = [
     id: 6,
     title: "", // for actions column
     className: "w-[16%]",
-  }
+  },
 ];
 
 const Students = () => {
@@ -71,32 +71,40 @@ const Students = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const {limit, offset, search} = router.query;
+    const { limit, offset, search } = router.query;
     fethMoreData({
       limit: limit ? limit.toString() : undefined,
       offset: offset ? offset.toString() : undefined,
       search: search ? search.toString() : undefined,
     });
-  },[router.query])
+  }, [router.query]);
 
-  const fethMoreData = async ({limit, offset, search}: {limit?: string, offset?: string, search?: string}) => {
-    const query:any = {};
+  const fethMoreData = async ({
+    limit,
+    offset,
+    search,
+  }: {
+    limit?: string;
+    offset?: string;
+    search?: string;
+  }) => {
+    const query: any = {};
     query.limit = limit || paginationDatas.perPage;
-    if(offset){
+    if (offset) {
       query.skip = offset;
     }
-    if(search){
+    if (search) {
       query.search = search;
     }
-    const url = routeHelper.addQueryPArameters("https://dummyjson.com/users", query);
-
-    const data = await fetch(url).then((res) =>
-      res.json()
+    const url = routeHelper.addQueryPArameters(
+      "https://dummyjson.com/users",
+      query
     );
+
+    const data = await fetch(url).then((res) => res.json());
     setUser(data.users);
     setTotal(data.total);
-  }
-
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

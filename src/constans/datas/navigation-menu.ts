@@ -10,7 +10,7 @@ export const NavigationMenu: navigationTypes.NavigationMenuItemType[] = [
     {
         title: "Home",
         icon: Home,
-        isActive: true,
+        isActive: false,
         path: "/dashboard",
     }, 
     {

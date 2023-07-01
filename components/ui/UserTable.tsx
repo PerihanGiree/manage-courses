@@ -73,7 +73,7 @@ const UserTable: React.FC<PropsType> = ({ headerTitles, users, total }) => {
         total;
     }
     setPageInfoText(text);
-  }, [currentPage]);
+  }, [currentPage, total]);
 
   const handleChangePerPage = (value: number) => {
     const query: any = {};
