@@ -29,7 +29,7 @@ const Dashboard = () => {
         {dashboardDatas.DashboardCategory.map((item) => {
           return (
             <div
-              key={item.title} //evvet kafayı yedırecek yedi
+              key={item.title}
               className={`w-[255px] h-[157px] rounded-[8px] ${
                 colorVariants[item.index].bg
               } `}
