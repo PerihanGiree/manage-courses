@@ -2,14 +2,8 @@ import Button from "@/components/ui/Button";
 import Avatar from "../../public/avatar.png";
 import React, { use, useEffect, useState } from "react";
 import UserTable from "@/components/ui/UserTable";
+import { userTypes } from "@/src/types";
 
-interface User {
-  id: number;
-  firstName: string;
-  email: string;
-
-  // Diğer kullanıcı özellikleri buraya eklenebilir
-}
 type InputProps = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +19,12 @@ const Input: React.FC<InputProps> = ({ value, onChange }) => {
     />
   );
 };
+
 const TableTitle = [
+  {
+    id: 0,
+    title: "", // for images column
+  },
   {
     id: 1,
     title: "Name",
@@ -46,10 +45,17 @@ const TableTitle = [
     id: 5,
     title: "Company Name",
   },
+  {
+    id: 6,
+    title: "", // for actions column
+  }
 ];
 
 const Students = () => {
-  const [user, setUser] = useState<User[]>([]);
+  const [user, setUser] = useState<userTypes.User[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [total, setTotal] = useState<number>(0);
+
   useEffect(() => {
     getData();
   }, []);
@@ -58,9 +64,9 @@ const Students = () => {
     const data = await fetch("https://dummyjson.com/users").then((res) =>
       res.json()
     );
-    setUser(data);
+    setUser(data.users);
   };
-  const [inputValue, setInputValue] = useState("");
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -76,48 +82,8 @@ const Students = () => {
         </div>
       </div>
       <p className="w-full h-[2px] bg-[#E5E5E5] mt-5"></p>
-      {/**Table Header */}
-      <div className="w-full h-[15px] top-36  flex flex-row justify-around">
-        {TableTitle.map((item) => {
-          return (
-            <div key={item.id}>
-              <p className="font-semibold text-[12px] mt-2  text-[#ACACAC]">
-                {item.title}
-              </p>
-            </div>
-          );
-        })}
-      </div>
 
-      <div className="w-full h-[85px]  mt-6   bg-slate-400 flex flex-row justify-around ">
-        <div className="flex justify-start  ml-4 mt-3 -mr-10">
-          <img className="w-[65px] h-[55px]  " src={Avatar} alt="avatar" />
-        </div>
-        <div className="flex justify-around items-center ">
-          <p className="m-66">Perihan </p>
-          <p className="m-6">Perihan </p>
-          <p className="m-6">Perihan </p>
-          <p className="m-6">Perihan </p>
-          <p className="m-6">Perihan </p>
-        </div>
-
-        <div className="flex justify-end ">
-          <button className="m-5">Düzen</button>
-          <button>Sil</button>
-        </div>
-      </div>
-      {/**Burda da denedim */}
-      {/* <div>
-        {user &&
-          user.map((item) => {
-            return (
-              <div key={item.id}>
-                <p>{item.firstName}</p>
-              </div>
-            );
-          })}
-      </div>*/}
-      <UserTable />
+      <UserTable headerTitles={TableTitle} users={user} total={total} />
     </div>
   );
 };
