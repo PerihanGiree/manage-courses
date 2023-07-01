@@ -11,6 +11,7 @@ type PropsType = ButtonHTMLAttributes<any> & {
 const IconButton: React.FC<PropsType> = (props) => {
   return (
     <button
+      onClick={props.onClick}
       {...props}
       className={`flex justify-start items-center ${
         props.isActive ? "bg-primary" : "bg-transparent"

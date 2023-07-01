@@ -1,30 +1,17 @@
+import { userTypes } from "@/src/types";
 import { useEffect, useState } from "react";
 
-interface User {
-  id: number;
-  firstName: string;
-  email: string;
-  // Diğer kullanıcı özellikleri buraya eklenebilir
+type PropsType = {
+  headerTitles: {
+    id: number;
+    title: string;
+  }[];
+  users: userTypes.User[];
+  total: number;
 }
 
-const UserTable: React.FC = () => {
+const UserTable: React.FC<PropsType> = ({headerTitles, users, total}) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize] = useState<number>(5);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    fetchUsers();
-  }, [currentPage, searchQuery]);
-
-  const fetchUsers = async (): Promise<void> => {
-    const url = `https://dummyjson.com/api/users?page=${currentPage}&size=${pageSize}&search=${searchQuery}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    setUsers(data.users || []);
-
-    console.log(data.users);
-  };
 
   const handlePrevPage = (): void => {
     if (currentPage > 1) {
@@ -38,12 +25,16 @@ const UserTable: React.FC = () => {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
+      <table className="w-full flex flex-col">
+        <thead className="w-full">
+          <tr className="w-full h-[15px] flex flex-row justify-around">
+            {
+              headerTitles.map((title) => (
+                <th key={title.id}>
+                  <span className="font-semibold text-[12px] mt-2  text-[#ACACAC]">{title.title}</span>
+                </th>
+              ))
+            }
           </tr>
         </thead>
         <tbody>
