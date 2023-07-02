@@ -8,8 +8,8 @@ import Sidebar from "@/components/layout/Sidebar";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  if(router.pathname === "/login"){
-    return <Component {...pageProps} />
+  if (router.pathname === "/login") {
+    return <Component {...pageProps} />;
   }
   return (
     <div className="w-screen h-screen flex flex-row">

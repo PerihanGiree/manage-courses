@@ -12,6 +12,23 @@ const Sidebar = () => {
   const [menu, setMenu] = useState<navigationTypes.NavigationMenuItemType[]>(
     navigationDatas.NavigationMenu
   );
+  const router = useRouter();
+  
+  const handleClickNavigateButton = (path: string, title: string) => {
+    router.push(path);
+    setMenu((prev) => prev.map((item) => {
+      if(item.title === title){
+        return {
+          ...item,
+          isActive: true
+        }
+      } 
+      return {
+        ...item,
+        isActive: false
+      }
+    }))
+  }
   return (
     <div className="w-[270px] bg-light flex flex-col justify-between items-center">
       <div>
@@ -42,6 +59,7 @@ const Sidebar = () => {
             title={item.title}
             icon={item.icon}
             isActive={item.isActive}
+            onClick={() => handleClickNavigateButton(item.path, item.title)}
           />
         ))}
       </div>
