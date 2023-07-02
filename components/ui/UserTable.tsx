@@ -11,6 +11,7 @@ import ArrowRight from '../../public/arrow - right.svg';
 import Dropdown from '../../public/dropdown.svg';
 import CustomModal from './Modal';
 import StudentForm from '../StudentForm';
+import Button from './Button';
 
 type PropsType = {
 	headerTitles: {
@@ -21,13 +22,15 @@ type PropsType = {
 	users: userTypes.User[];
 	total: number;
 	userUpdateFunc: (user: userTypes.User) => void;
+	userDeleteFunc: (id: number) => void;
 };
 
 const UserTable: React.FC<PropsType> = ({
 	headerTitles,
 	users,
 	total,
-	userUpdateFunc
+	userUpdateFunc,
+	userDeleteFunc
 }) => {
 	const [currentPage, setCurrentPage] = useState<number>(10);
 	const [dropdownVisible, setDropdownVisible] =
@@ -114,6 +117,24 @@ const UserTable: React.FC<PropsType> = ({
 		setEditModalVisible(true);
 	};
 
+	const handleDelete = async () => {
+		if (!selectedUser) {
+			alert('Bir Sorun ile Karşılaşıldı.');
+			return;
+		}
+		try {
+			await fetch(`https://dummyjson.com/users/${selectedUser.id}`, {
+				method: 'DELETE'
+			});
+			alert(
+				`Seçilen ${selectedUser.firstName} adlı öğrenci başarıyla silindi.`
+			);
+			userDeleteFunc(selectedUser.id);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div>
 			<table className="w-full flex flex-col mb-8 ">
@@ -173,7 +194,12 @@ const UserTable: React.FC<PropsType> = ({
 										alt=""
 									/>
 								</button>
-								<button>
+								<button
+									onClick={() => {
+										setSelectedUser(user);
+										setDeleteModalVisible(true);
+									}}
+								>
 									<img
 										src={Delete}
 										alt=""
@@ -248,6 +274,7 @@ const UserTable: React.FC<PropsType> = ({
 				</div>
 			</div>
 			<CustomModal
+				key="Edit"
 				headerData={{ title: 'Edit Student' }}
 				visible={editModalVisible}
 				setVisible={setEditModalVisible}
@@ -257,6 +284,30 @@ const UserTable: React.FC<PropsType> = ({
 					user={selectedUser}
 					userUpdateFunc={userUpdateFunc}
 				/>
+			</CustomModal>
+			<CustomModal
+				key="delete"
+				headerData={{ title: 'Delete Student' }}
+				visible={deleteModalVisible}
+				setVisible={setDeleteModalVisible}
+			>
+				<div className="px-5">
+					<p>Silmek istediğinize emin misiniz ? </p>
+					<div className="flex flex-row mt-4">
+						<Button
+							onClick={() => {
+								setSelectedUser(undefined);
+								setDeleteModalVisible(false);
+							}}
+							title="Cancel"
+						/>
+						<div className="w-8" />
+						<Button
+							onClick={handleDelete}
+							title="Delete"
+						/>
+					</div>
+				</div>
 			</CustomModal>
 		</div>
 	);

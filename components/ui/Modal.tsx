@@ -11,22 +11,6 @@ type PropsType = {
 	children: React.ReactNode;
 };
 
-const customStyles = {
-	content: {
-		top: '50%',
-		left: '50%',
-		right: 'auto',
-		bottom: 'auto',
-		marginRight: '-50%',
-		transform: 'translate(-50%, -50%)',
-		minWidth: '50%',
-		maxHeight: '80vh',
-		padding: 0,
-		border: 'none',
-		boxShadow: '8.0px 16.0px 16.0px hsl(0deg 0% 0% / 0.05)'
-	}
-};
-
 const CustomModal: React.FC<PropsType> = ({
 	visible,
 	setVisible,
@@ -35,6 +19,22 @@ const CustomModal: React.FC<PropsType> = ({
 }) => {
 	const onClose = () => {
 		setVisible(false);
+	};
+
+	const customStyles = {
+		content: {
+			top: '50%',
+			left: '50%',
+			right: 'auto',
+			bottom: 'auto',
+			marginRight: '-50%',
+			transform: 'translate(-50%, -50%)',
+			minWidth: '50%',
+			maxHeight: '80vh',
+			padding: 0,
+			border: 'none',
+			boxShadow: '8.0px 16.0px 16.0px hsl(0deg 0% 0% / 0.05)'
+		}
 	};
 
 	return (

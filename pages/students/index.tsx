@@ -131,6 +131,10 @@ const Students = () => {
 		);
 	};
 
+	const userDelete = (id: number) => {
+		setUser((prev) => prev.filter((item) => item.id !== id));
+	};
+
 	return (
 		<div className="bg-[#f8f8f8] h-[calc(100vh-60px)] px-8 pt-5">
 			{loading && (
@@ -160,6 +164,7 @@ const Students = () => {
 				users={user}
 				total={total}
 				userUpdateFunc={userUpdate}
+				userDeleteFunc={userDelete}
 			/>
 
 			<CustomModal
