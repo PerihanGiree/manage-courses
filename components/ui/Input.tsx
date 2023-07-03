@@ -4,7 +4,6 @@ import { InputType } from "zlib";
 type PropsType = InputHTMLAttributes<any> & {
   label: string;
   onKeyPress?: () => void;
-  image: string;
 };
 
 const Input: React.FC<PropsType> = (props) => {

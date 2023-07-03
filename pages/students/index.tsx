@@ -135,15 +135,30 @@ const Students = () => {
   };
 
   //Search
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const { pathname, query } = router;
     const updatedQuery = { ...query, search: inputValue };
     router.push({
       pathname,
       query: updatedQuery,
     });
+
+    const url = routeHelper.addQueryPArameters(
+      "https://dummyjson.com/users",
+      updatedQuery
+    );
+    setLoading(true);
+    try {
+      const data = await fetch(url).then((res) => res.json());
+      setUser(data.users);
+      setTotal(data.total);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
-  const debouncedSearch = debounce(handleSearch, 800);
+  const debouncedSearch = debounce(handleSearch, 1000);
   useEffect(() => {
     debouncedSearch();
   }, [inputValue]);
@@ -158,10 +173,10 @@ const Students = () => {
       <div className=" flex justify-between">
         <div className="font-bold text-[22px]">Students List</div>
         <div className=" flex flex-row items-center justify-center ">
-          <div className="flex flex-row justify-between">
-            <Input value={inputValue} onChange={handleInputChange} />
-
-            <img src={Search} alt="Search" className="w-30 h-30" />
+          <div className="flex flex-row ">
+            <Input value={inputValue} onChange={handleInputChange}>
+              <img image={Search} />
+            </Input>
           </div>
 
           <Button
