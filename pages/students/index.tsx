@@ -9,7 +9,7 @@ import { routeHelper } from "@/src/helpers";
 import CustomModal from "@/components/ui/Modal";
 import StudentForm from "@/components/StudentForm";
 import Search from "../../public/search 1.svg";
-import debounce from "lodash/debounce";
+import UserDetay from "@/components/UserDetay";
 type InputProps = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -72,7 +72,7 @@ const Students = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const router = useRouter();
-
+  let timer: NodeJS.Timeout | null = null;
   useEffect(() => {
     const { limit, offset, search } = router.query;
     fethMoreData({
@@ -136,6 +136,7 @@ const Students = () => {
 
   //Search
   const handleSearch = async () => {
+    // Arama işlemini gerçekleştirirken debounce mekanizması kullanılmayacak
     const { pathname, query } = router;
     const updatedQuery = { ...query, search: inputValue };
     router.push({
@@ -158,9 +159,23 @@ const Students = () => {
       setLoading(false);
     }
   };
-  const debouncedSearch = debounce(handleSearch, 1000);
+  const debounceSearch = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      handleSearch();
+      timer = null;
+    }, 3000);
+  };
   useEffect(() => {
-    debouncedSearch();
+    debounceSearch();
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, [inputValue]);
   return (
     <div className="bg-[#f8f8f8] h-[calc(100vh-60px)] px-8 pt-5">
@@ -174,9 +189,7 @@ const Students = () => {
         <div className="font-bold text-[22px]">Students List</div>
         <div className=" flex flex-row items-center justify-center ">
           <div className="flex flex-row ">
-            <Input value={inputValue} onChange={handleInputChange}>
-              <img image={Search} />
-            </Input>
+            <Input value={inputValue} onChange={handleInputChange} />
           </div>
 
           <Button
@@ -195,6 +208,7 @@ const Students = () => {
         userUpdateFunc={userUpdate}
         userDeleteFunc={userDelete}
       />
+      {/*<UserDetay />*/}
 
       <CustomModal
         visible={modalVisible}
