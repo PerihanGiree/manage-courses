@@ -16,39 +16,17 @@ const LoginCard = () => {
       [key]: value,
     });
   };
-  interface LoginResponse {
-    token: string;
-    message: string;
-  }
-
-  async function login(mail: string, password: string): Promise<LoginResponse> {
-    const response = await fetch("https://dummyjson.com/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Login failed");
-    }
-
-    const data = await response.json();
-    return data as LoginResponse;
-  }
-
-  // Kullanım örneği
-  const mail = "kminchelle@qq.com";
-  const password = "0lelplR";
-
-  login(mail, password)
-    .then((response) => {
-      console.log(response.token); // Token değerini kullanabilirsiniz
-      console.log(response.message); // İstediğiniz şekilde mesajı kullanabilirsiniz
+  const login = () => {
+    if (!formData.mail && !formData.password) {
       router.push("/dashboard");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    } else if (formData.mail === "" && !formData.password) {
+      alert("Mail adresi zorunlu");
+    } else if (!formData.mail && formData.password === "") {
+      alert("Şifre Zorunlu");
+    } else {
+      alert("İşler yolunda gitmedi");
+    }
+  };
 
   return (
     <div className="min-w-[475px] min-h-[550px] bg-white rounded-[20px] flex flex-col items-center shadow-card">
@@ -82,7 +60,7 @@ const LoginCard = () => {
           value={formData.password}
           onChange={(e) => onChangeText(e.target.value, "password")}
         />
-        <Button title="sign in" className="mt-2" onClick={() => login} />
+        <Button title="sign in" className="mt-2" login={login} />
       </div>
       <p className=" mt-5 text-center text-lightGray text-sm2">
         Forgot your password?{" "}
