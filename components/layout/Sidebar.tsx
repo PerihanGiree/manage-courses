@@ -13,28 +13,28 @@ const Sidebar = () => {
     navigationDatas.NavigationMenu
   );
   const router = useRouter();
-  
+
   useEffect(() => {
     const path = router.pathname;
 
     const list = navigationDatas.NavigationMenu.map((item) => {
-      if(item.path === path){
+      if (path.includes(item.path)) {
         return {
           ...item,
-          isActive: true
-        }
-      } 
+          isActive: true,
+        };
+      }
       return {
         ...item,
-        isActive: false
-      }
+        isActive: false,
+      };
     });
     setMenu(list);
-  },[router]);
+  }, [router]);
 
   const handleClickNavigateButton = (path: string, title: string) => {
     router.push(path);
-  }
+  };
   return (
     <div className="w-[270px] bg-light flex flex-col justify-between items-center">
       <div>
@@ -70,7 +70,10 @@ const Sidebar = () => {
         ))}
       </div>
       {/* Logout */}
-      <button className="flex items-center mb-5">
+      <button
+        onClick={() => router.push("/login")}
+        className="flex items-center mb-5"
+      >
         <span className="mr-6">Logout</span>
         <img src={logout} alt="logout" />
       </button>

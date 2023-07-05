@@ -57,15 +57,28 @@ const StudentForm: React.FC<PropsType> = ({ isEdit, user, userUpdateFunc }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...body }),
       }).then((res) => res.json());
-      const successMessage = `
-                Tebrikler Yeni Öğrenciniz eklendi.\n
-                id=${response.id}\n
-                full name=${response.firstName + response.lastName}\n
-                email=${response.email}\n
-                phone=${response.phone}\n
-                company name=${response.company.name}\n
-            `;
-      alert(successMessage);
+      if (
+        response.id &&
+        response.firstName &&
+        response.lastName &&
+        response.email &&
+        response.email &&
+        response.phone &&
+        response.catch.name
+      ) {
+        const successMessage = `
+        Tebrikler Yeni Öğrenciniz eklendi.\n
+        id=${response.id}\n
+        full name=${response.firstName + response.lastName}\n
+        email=${response.email}\n
+        phone=${response.phone}\n
+        company name=${response.company.name}\n
+        `;
+
+        alert(successMessage);
+      } else {
+        alert("Boş alan bulunmaması gerekmektedir.");
+      }
     } catch (error) {
       alert(error);
     }

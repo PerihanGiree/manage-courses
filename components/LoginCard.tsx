@@ -17,7 +17,9 @@ const LoginCard = () => {
     });
   };
   const login = () => {
-    if (formData.mail && formData.password) {
+    if (!formData.mail && !formData.password) {
+      alert("Boş alan kalmaması gerekmektedir..");
+    } else {
       router.push("/dashboard");
     }
   };

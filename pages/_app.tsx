@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="w-screen h-screen flex flex-row">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-full max-w-full">
         <div className="h-[60px] px-5 w-full flex flex-row justify-between items-center ">
           <img src={caret} alt="caret" />
           <img src={bell} alt="bell" />
