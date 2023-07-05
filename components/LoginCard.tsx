@@ -17,17 +17,10 @@ const LoginCard = () => {
     });
   };
   const login = () => {
-    if (!formData.mail && !formData.password) {
+    if (formData.mail && formData.password) {
       router.push("/dashboard");
-    } else if (formData.mail === "" && !formData.password) {
-      alert("Mail adresi zorunlu");
-    } else if (!formData.mail && formData.password === "") {
-      alert("Şifre Zorunlu");
-    } else {
-      alert("İşler yolunda gitmedi");
     }
   };
-
   return (
     <div className="min-w-[475px] min-h-[550px] bg-white rounded-[20px] flex flex-col items-center shadow-card">
       {/* Header */}
@@ -60,7 +53,7 @@ const LoginCard = () => {
           value={formData.password}
           onChange={(e) => onChangeText(e.target.value, "password")}
         />
-        <Button title="sign in" className="mt-2" login={login} />
+        <Button title="sign in" className="mt-2" onClick={() => login()} />
       </div>
       <p className=" mt-5 text-center text-lightGray text-sm2">
         Forgot your password?{" "}
