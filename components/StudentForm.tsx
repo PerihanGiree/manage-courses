@@ -51,33 +51,30 @@ const StudentForm: React.FC<PropsType> = ({ isEdit, user, userUpdateFunc }) => {
           name: formData.companyName,
         },
       };
-
-      const response = await fetch("https://dummyjson.com/users/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...body }),
-      }).then((res) => res.json());
       if (
-        response.id &&
-        response.firstName &&
-        response.lastName &&
-        response.email &&
-        response.email &&
-        response.phone &&
-        response.catch.name
+        !formData.companyName ||
+        !formData.email ||
+        !formData.firstName ||
+        !formData.lastName ||
+        !formData.phone
       ) {
+        alert("Boş alan bulunmaması gerekmektedir..");
+      } else {
+        const response = await fetch("https://dummyjson.com/users/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...body }),
+        }).then((res) => res.json());
         const successMessage = `
-        Tebrikler Yeni Öğrenciniz eklendi.\n
-        id=${response.id}\n
-        full name=${response.firstName + response.lastName}\n
-        email=${response.email}\n
-        phone=${response.phone}\n
-        company name=${response.company.name}\n
-        `;
+                Tebrikler Yeni Öğrenciniz eklendi.\n
+                id=${response.id}\n
+                full name=${response.firstName + response.lastName}\n
+                email=${response.email}\n
+                phone=${response.phone}\n
+                company name=${response.company.name}\n
+            `;
 
         alert(successMessage);
-      } else {
-        alert("Boş alan bulunmaması gerekmektedir.");
       }
     } catch (error) {
       alert(error);
